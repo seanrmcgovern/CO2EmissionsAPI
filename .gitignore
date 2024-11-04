@@ -12,7 +12,7 @@ tarballs/
 test-results/
 
 # Ignore environment-specific settings
-appsettings.Development.json
+CO2EmissionsAPI/appsettings.Development.json
 
 # Mac bundle stuff
 *.dmg
