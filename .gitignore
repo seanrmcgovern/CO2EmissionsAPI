@@ -11,6 +11,9 @@ autom4te.cache/
 tarballs/
 test-results/
 
+# Ignore environment-specific settings
+appsettings.Development.json
+
 # Mac bundle stuff
 *.dmg
 *.app

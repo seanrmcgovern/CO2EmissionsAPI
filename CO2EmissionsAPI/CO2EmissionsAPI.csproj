@@ -22,12 +22,14 @@
     <None Remove="Interfaces\" />
     <None Remove="Repositories\" />
     <None Remove="DTOs\" />
+    <None Remove="Middleware\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\" />
     <Folder Include="Interfaces\" />
     <Folder Include="Repositories\" />
     <Folder Include="DTOs\" />
+    <Folder Include="Middleware\" />
   </ItemGroup>
   <ItemGroup>
     <None Update="Data\worldBankEmissions.db">
