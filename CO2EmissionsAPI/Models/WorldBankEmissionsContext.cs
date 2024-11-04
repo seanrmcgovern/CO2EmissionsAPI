@@ -19,10 +19,6 @@ namespace CO2EmissionsAPI.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlite("Data Source=Data/worldBankEmissions.db");
-            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

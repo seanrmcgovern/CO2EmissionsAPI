@@ -2,6 +2,8 @@
 using CO2EmissionsAPI.Repositories;
 using CO2EmissionsAPI.Models;
 using CO2EmissionsAPI.Middleware;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -46,8 +48,9 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
-// register the EFCore DbContext WorldBankEmissionsContext
-builder.Services.AddDbContext<WorldBankEmissionsContext>();
+// register the EFCore DbContext WorldBankEmissionsContext while setting the SQLite connection string
+var connectionString = builder.Configuration.GetConnectionString("EmissionsDb");
+builder.Services.AddDbContext<WorldBankEmissionsContext>(options => options.UseSqlite(connectionString));
 
 // register the WorldBankEmissionsRepository
 builder.Services.AddScoped<IWorldBankEmissionsRepository, WorldBankEmissionsRepository>();
