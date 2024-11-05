@@ -33,6 +33,11 @@ namespace CO2EmissionsAPI.Repositories
             return await _context.EmissionsData.Where(ed => ed.Year == year && ed.CountryId == countryId).Include(ed => ed.Country).ToListAsync();
         }
 
+        public async Task<IEnumerable<EmissionsDatum>> GetEmissionsByYearRangeAndCountryAsync(int minYear, int maxYear, int countryId)
+        {
+            return await _context.EmissionsData.Where(ed => ed.Year >= minYear && ed.Year <= maxYear && ed.CountryId == countryId).Include(ed => ed.Country).ToListAsync();
+        }
+
         public async Task<IEnumerable<Country>> GetCountries()
         {
             return await _context.Countries.ToListAsync();

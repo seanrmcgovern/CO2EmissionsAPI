@@ -2,7 +2,6 @@
 using CO2EmissionsAPI.Repositories;
 using CO2EmissionsAPI.Models;
 using CO2EmissionsAPI.Middleware;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +13,18 @@ builder.Configuration
 
 // Add services to the DI container
 // This setup allows controllers to receive dependencies via DI
+
+// Add CORS policy for development
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReactApp", policy =>
+    {
+        policy.WithOrigins("http://localhost:5173")
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials();
+    });
+});
 
 // register support for controllers, CORS, API explorers, etc. 
 builder.Services.AddControllers();
@@ -64,6 +75,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+// Enable CORS policy
+app.UseCors("AllowReactApp");
+
+// Enable middleware for api key
 app.UseMiddleware<ApiKeyMiddleware>();
 
 app.UseHttpsRedirection();
