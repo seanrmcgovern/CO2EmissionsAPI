@@ -19,7 +19,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp", policy =>
     {
-        policy.WithOrigins("http://localhost:5173")
+        policy.WithOrigins("https://co-2-emissions-app.vercel.app/")
               .AllowAnyHeader()
               .AllowAnyMethod()
               .AllowCredentials();
