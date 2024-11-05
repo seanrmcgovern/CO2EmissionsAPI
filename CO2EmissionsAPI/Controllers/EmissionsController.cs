@@ -18,7 +18,7 @@ namespace CO2EmissionsAPI.Controllers
         }
 
         [HttpGet("GetEmissions")]
-        public async Task<IActionResult> GetEmissionsData()
+        public async Task<IActionResult> GetEmissions()
         {
             try
             {
@@ -78,7 +78,7 @@ namespace CO2EmissionsAPI.Controllers
         }
 
         [HttpGet("GetEmissionsByYear/{year}")]
-        public async Task<IActionResult> GetEmissionsDataByYear(int year)
+        public async Task<IActionResult> GetEmissionsByYear(int year)
         {
             try
             {
@@ -108,7 +108,7 @@ namespace CO2EmissionsAPI.Controllers
         }
 
         [HttpGet("GetEmissionsByYearAndCountry/{year}/{countryId}")]
-        public async Task<IActionResult> GetEmissionsDataByYear(int year, int countryId)
+        public async Task<IActionResult> GetEmissionsByYearAndCountry(int year, int countryId)
         {
             try
             {
@@ -117,6 +117,36 @@ namespace CO2EmissionsAPI.Controllers
                 if (data == null || !data.Any())
                 {
                     _logger.LogWarning($"No emissions data found for year: {year} and country id: {countryId}");
+                    return NotFound("No emissions data found for");
+                }
+
+                var emissionsDatumDtoList = data.Select(ed => new EmissionsDatumDto(ed)).ToList();
+
+                _logger.LogInformation("Successfully retrieved emissions data.");
+                return Ok(emissionsDatumDtoList);
+            }
+            catch (ArgumentException ex)
+            {
+                _logger.LogError(ex, "Invalid argument");
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"An unexpected error occurred while retrieving emissions data: {ex.Message}");
+                return StatusCode(500, $"An unexpected error occurred: {ex.Message}");
+            }
+        }
+
+        [HttpGet("GetEmissionsByYearRangeAndCountry/{minYear}/{maxYear}/{countryId}")]
+        public async Task<IActionResult> GetEmissionsByYearRangeAndCountry(int minYear, int maxYear, int countryId)
+        {
+            try
+            {
+                var data = await _repository.GetEmissionsByYearRangeAndCountryAsync(minYear, maxYear, countryId);
+
+                if (data == null || !data.Any())
+                {
+                    _logger.LogWarning($"No emissions data found for min year {minYear}, maxYear {maxYear}, and country id: {countryId}");
                     return NotFound("No emissions data found for");
                 }
 

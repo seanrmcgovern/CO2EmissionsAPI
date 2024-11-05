@@ -9,6 +9,7 @@ namespace CO2EmissionsAPI.Interfaces
         Task<IEnumerable<EmissionsDatum>> GetEmissionsByCountryAsync(int countryCode);
         Task<IEnumerable<EmissionsDatum>> GetEmissionsByYearAsync(int year);
         Task<IEnumerable<EmissionsDatum>> GetEmissionsByYearAndCountryAsync(int year, int countryId);
+        Task<IEnumerable<EmissionsDatum>> GetEmissionsByYearRangeAndCountryAsync(int minYear, int maxYear, int countryId);
         Task<IEnumerable<Country>> GetCountries();
         Task<IEnumerable<EmissionsIndicator>> GetIndicators();
     }
